@@ -1,3 +1,15 @@
+## 3.1.5
+
+ - **FIX**: lint warnings - add missing dependency for tests (#1233).
+
+## 3.1.4
+
+ - **DOCS**: Add documentation for canResolveActivity.
+
+## 3.1.3
+
+ - **CHORE**: Version tagging using melos.
+
 ## 3.1.2
 
 - Fix explicit intent fallback to implicit

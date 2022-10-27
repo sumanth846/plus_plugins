@@ -4,8 +4,14 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'dart:io';
+
+import 'package:file_selector/file_selector.dart'
+    hide XFile; // hides to test if share_plus exports XFile
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart'
+    hide XFile; // hides to test if share_plus exports XFile
 import 'package:share_plus/share_plus.dart';
 
 import 'image_previews.dart';
@@ -67,15 +73,34 @@ class DemoAppState extends State<DemoApp> {
                     leading: const Icon(Icons.add),
                     title: const Text('Add image'),
                     onTap: () async {
-                      final imagePicker = ImagePicker();
-                      final pickedFile = await imagePicker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (pickedFile != null) {
-                        setState(() {
-                          imagePaths.add(pickedFile.path);
-                          imageNames.add(pickedFile.name);
-                        });
+                      // Using `package:image_picker` to get image from gallery.
+                      if (Platform.isMacOS ||
+                          Platform.isLinux ||
+                          Platform.isWindows) {
+                        // Using `package:file_selector` on windows, macos & Linux, since `package:image_picker` is not supported.
+                        const XTypeGroup typeGroup = XTypeGroup(
+                          label: 'images',
+                          extensions: <String>['jpg', 'jpeg', 'png', 'gif'],
+                        );
+                        final file = await openFile(
+                            acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+                        if (file != null) {
+                          setState(() {
+                            imagePaths.add(file.path);
+                            imageNames.add(file.name);
+                          });
+                        }
+                      } else {
+                        final imagePicker = ImagePicker();
+                        final pickedFile = await imagePicker.pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (pickedFile != null) {
+                          setState(() {
+                            imagePaths.add(pickedFile.path);
+                            imageNames.add(pickedFile.name);
+                          });
+                        }
                       }
                     },
                   ),
@@ -98,6 +123,17 @@ class DemoAppState extends State<DemoApp> {
                             ? null
                             : () => _onShareWithResult(context),
                         child: const Text('Share With Result'),
+                      );
+                    },
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 12.0)),
+                  Builder(
+                    builder: (BuildContext context) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          _onShareXFileFromAssets(context);
+                        },
+                        child: const Text('Share XFile from Assets'),
                       );
                     },
                   ),
@@ -143,6 +179,7 @@ class DemoAppState extends State<DemoApp> {
 
   void _onShareWithResult(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     ShareResult result;
     if (imagePaths.isNotEmpty) {
       final files = <XFile>[];
@@ -158,7 +195,27 @@ class DemoAppState extends State<DemoApp> {
           subject: subject,
           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    scaffoldMessenger.showSnackBar(SnackBar(
+      content: Text("Share result: ${result.status}"),
+    ));
+  }
+
+  void _onShareXFileFromAssets(BuildContext context) async {
+    final box = context.findRenderObject() as RenderBox?;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final data = await rootBundle.load('assets/flutter_logo.png');
+    final buffer = data.buffer;
+    final result = await Share.shareXFiles(
+      [
+        XFile.fromData(
+            buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+            name: 'flutter_logo.png',
+            mimeType: 'image/png'),
+      ],
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+    );
+
+    scaffoldMessenger.showSnackBar(SnackBar(
       content: Text("Share result: ${result.status}"),
     ));
   }

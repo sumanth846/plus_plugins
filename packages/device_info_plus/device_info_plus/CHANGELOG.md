@@ -1,3 +1,54 @@
+## 8.0.0
+
+> Note: This release has breaking changes.
+
+ - **DOCS**: Document toMap deprecation (#1292).
+ - **BREAKING** **FEAT**: refactor of device_info_plus platform implementation (#1293).
+
+## 7.0.1
+
+ - **FIX**: Increase min Flutter version to fix dartPluginClass registration (#1275).
+
+## 7.0.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: Migrate Android part to Kotlin, update Android dependencies (#1245).
+ - **FIX**: add `@Deprecated` annotation to `toMap` method (#1142).
+ - **DOCS**: Add info about Android properties availability, update API docs links (#1243).
+ - **BREAKING** **REFACTOR**: two-package federated architecture (#1228).
+
+## 6.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Add support of Android display metrics (#829).
+
+## 5.0.5
+
+ - Update a dependency to the latest release.
+
+## 5.0.4
+
+ - **FIX**: fixed wrong dependency version #1175.
+
+## 5.0.3
+
+ - **FIX**: fix version dependency.
+
+## 5.0.2
+
+ - **CHORE**: Version tagging using melos.
+
+## 5.0.1
+
+- Fixing federated plugin architecture versions.
+
+## 5.0.0
+
+- Re-introduce: Added more information to `WindowsDeviceInfo`.
+- device_info_plus_platform_interface to 4.0.0
+
 ## 4.1.3
 
 - Detects iOS simulator device id instead of simulator's underlying architecture.

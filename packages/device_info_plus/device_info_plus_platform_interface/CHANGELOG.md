@@ -1,3 +1,36 @@
+## 7.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: refactor of device_info_plus platform implementation (#1293).
+
+## 6.0.1
+
+ - **FIX**: Increase min Flutter version to fix dartPluginClass registration (#1275).
+
+## 6.0.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: add `@Deprecated` annotation to `toMap` method (#1142).
+ - **DOCS**: Add info about Android properties availability, update API docs links (#1243).
+ - **BREAKING** **REFACTOR**: Change nullability for AndroidDeviceInfo properties (#1246).
+ - **BREAKING** **REFACTOR**: two-package federated architecture (#1228).
+
+## 5.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Add support of Android display metrics (#829).
+
+## 4.0.1
+
+ - **CHORE**: Version tagging using melos.
+
+## 4.0.0
+
+- Re-introduce Windows: Add userName, majorVersion, minorVersion, buildNumber, platformId, csdVersion, servicePackMajor, servicePackMinor, suitMask, productType, reserved, buildLab, buildLabEx, digitalProductId, displayVersion, editionId, installDate, productId, productName, registeredOwner, releaseId, deviceId to WindowsDeviceInfo.
+
 ## 3.0.0
 
 - Redo 2.6.0 into 3.0.0
